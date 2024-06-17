@@ -22,6 +22,11 @@
                 <td>{{ $item->price }}</td>
                 <td><a class="btn btn-primary" href="{{route("comics.show",["comic"=>$item->id])}}">Dettagli</a></td>
                 <td><a type="button" class="btn btn-primary" href="{{route("comics.edit", ["comic" => $item->id])}}">Modifica</a></td>
+                <td><form action="{{route("comic.destroy", ["comic"=> $comic->id])}}" @method("POST")>
+                    @csrf
+                    @method("DELETE")
+                    <button class="btn btn-primary">Cancella</button>
+                </form></td>
             </tr>
             @endforeach
         </tbody>
