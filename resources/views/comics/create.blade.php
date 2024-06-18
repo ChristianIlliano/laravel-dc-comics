@@ -1,8 +1,18 @@
 @extends('layouts.app')
 
-@section("content")
+@section('content')
     <div class="container">
         <h1>Aggiungi un nuovo fumetto</h1>
+
+        @if ($errors->any())
+            <div class="alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <form action="{{ route('comics.store') }}" method="POST">
             {{-- Cookie per far riconoscere il form al server --}}
@@ -10,7 +20,15 @@
 
             <div class="mb-3">
                 <label for="title" class="form-label">Titolo</label>
-                <input type="text" class="form-control" id="title" name="title">
+                <input type="text" class="form-control"
+                    @error('title')
+                    is-invalid
+                @enderror id="title" name="title">
+                    @error('title')
+                    <div id="title-error" class="invalid-feedback">
+                        Titolo non valido
+                    </div>
+                @enderror
             </div>
 
             <div class="mb-3">

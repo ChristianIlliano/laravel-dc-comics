@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreComicRequest;
+use App\Http\Requests\UpdateComicRequest;
 use App\Models\Comic;
 use Illuminate\Http\Request;
 
@@ -28,12 +30,14 @@ class ComicController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreComicRequest $request)
     {
         $data = $request->all();
-        $comic = new Comic();
-        $comic->fill($data);
-        $comic->save();
+        // $comic = new Comic();
+        // $comic->fill($data);
+        // $comic->save();
+        $comic = Comic::create($data);
+
 
         return redirect()->route("comic.show",["comic"=> $comic->id]);
     }
@@ -59,11 +63,12 @@ class ComicController extends Controller
      * Update the specified resource in storage.
      */
                             // depends injection
-    public function update(Request $request, Comic $comic)
+    public function update(UpdateComicRequest $request, Comic $comic)
     {
         $data = $request -> all();
         $comic->update($data);
-        return redirect()->route("comics.index");
+        return redirect()->route('comics.show', ['comic' => $comic->id]);
+        
     }
 
     /**
